@@ -4,17 +4,14 @@ import controlP5.*;
 ControlP5 cp5;
 
 int myColor = color(0,0,0);
-Slider s;
-Slider sm;
-Slider sv;
 RadioButton r;
-RadioButton rf; // rippleFreq
-//float Size;
 
 Serial port;
 String comPort = "COM7"; // Set this to the TEENSY!!
 
 void setup() {
+  printArray(Serial.list());
+  
   size(640, 640);
   noStroke();
   background(myColor);
@@ -37,6 +34,13 @@ void setup() {
      .setFont(font)
      .setSize(200, 40)
      .setValue(13)
+     ;
+   cp5.addSlider("brightness")
+     .setPosition(20,460)
+     .setRange(0,255)
+     .setFont(font)
+     .setSize(200, 40)
+     .setValue(128)
      ;
    
    cp5.addSlider("Smooth")
@@ -70,6 +74,19 @@ void setup() {
          .setSpacingColumn(100)
          .addItem("Amp",0)
          .addItem("Freq",1)
+         .setArrayValue(new float[] { 0, 1 })
+         , font);
+  
+  styleRadioButton(cp5.addRadioButton("audioSource")
+         .setPosition(20,520)
+         .setSize(80,40)
+         .setColorForeground(color(120))
+         .setColorActive(color(90,0,90))
+         .setColorLabel(color(255))
+         .setItemsPerRow(5)
+         .setSpacingColumn(100)
+         .addItem("Line",0)
+         .addItem("Mic",1)
          .setArrayValue(new float[] { 0, 1 })
          , font);
          
@@ -122,12 +139,20 @@ void Volume(float x) {
   sliderEvent(x, "v");
 }
 
+void brightness(float x) {
+  sliderEvent(x, "b");
+}
+
+void audioSource(int x) {
+  sliderEvent(x, "a");
+}
+
 void Smooth(float x) {
   sliderEvent(x, "m");
 }
 
 void sliderEvent(float x, String pre) {
   if (port == null) { return; }
-  //println(pre + (int)x);
+  println(pre + (int)x);
   port.write(pre + String.valueOf((int)x) + "\n");
 }
