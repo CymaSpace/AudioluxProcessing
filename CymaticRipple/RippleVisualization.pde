@@ -125,42 +125,25 @@ class RippleVisualization {
     return freq;
   }
   
-  float growth = 0.001;
-  float angle;
   void draw() {
     int speedFactor = 3;
     int radius = width/(2*speedFactor);
     int x = width/2;
     int y = height/2;
     
-    boolean shrink = false;
-    if (growth > 13) {
-      shrink = true;
-    }
-    if (growth < 1.01) {
-      shrink = false;
-    }
-    if (shrink) {
-      growth /= 1.01;
-    } else {
-      growth *= 1.01;
-    }
-    angle += 0.023 * growth;
-    float c = angle; // cos(angle);
-
     println(frameRate);
-    translate(x, y);
-    rotate(c);
-    boolean drawEllipse = false;
-     for (int iR = radius * 3; iR > 0; --iR) {
+    boolean drawEllipse = true;
+    int rad = (int)(radius * 2);
+    if (drawEllipse) { rad = (int)(radius * 1.5); }
+    for (int iR = rad; iR > 0; --iR) {
        fill(viz[iR % size]);
        int w = iR*speedFactor;
        int h = iR*speedFactor;
        if (drawEllipse) {
          ellipse(x, y, w, h);
        } else {
-         rect(0, 0, w, h);
+         rect(x, y, w, h);
        }
-     }
+    }
   }
 }
