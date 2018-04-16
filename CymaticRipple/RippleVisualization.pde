@@ -32,6 +32,7 @@ class RippleVisualization {
     colorMode(HSB);
     noStroke();
     ellipseMode(RADIUS);
+    rectMode(CENTER);
   }
   
   float smooth(float[] smoothing, int length, float value) {
@@ -65,16 +66,16 @@ class RippleVisualization {
   }
   
   void update_freq() {
-    float amp = input.mix.get(0) * 15;
-    float freq = get_freq();
-    print("Amp", amp, "Freq", freq);
+    float amp = abs(input.mix.get(0)*3);
+    float freq = get_freq() * 10;
+    //print("Amp", amp, "Freq", freq);
     amp = smooth(smoothing_amp, smoothing, amp);
     freq = smooth(smoothing_freq, smoothing, freq);
-    
-    int hue = int(255.0 * freq);
+    //print("  SAmp", amp, "SFreq", freq);
+    int hue = int(127 * freq);
     int val = (int)map(amp, 0.0, 1.0, 0.0, 255.0);
     if (val < 10) { val = 0; }
-    println("H", hue, "V", val);
+    //println("   H", hue, "V", val);
     push_queue(color(hue, 255, val));
   }
   
@@ -124,13 +125,42 @@ class RippleVisualization {
     return freq;
   }
   
+  float growth = 0.001;
+  float angle;
   void draw() {
-    int radius = width/2;
+    int speedFactor = 3;
+    int radius = width/(2*speedFactor);
     int x = width/2;
     int y = height/2;
-     for (int iR = radius; iR > 0; --iR) {
+    
+    boolean shrink = false;
+    if (growth > 13) {
+      shrink = true;
+    }
+    if (growth < 1.01) {
+      shrink = false;
+    }
+    if (shrink) {
+      growth /= 1.01;
+    } else {
+      growth *= 1.01;
+    }
+    angle += 0.023 * growth;
+    float c = angle; // cos(angle);
+
+    println(frameRate);
+    translate(x, y);
+    rotate(c);
+    boolean drawEllipse = false;
+     for (int iR = radius * 3; iR > 0; --iR) {
        fill(viz[iR % size]);
-       ellipse(x, y, iR, iR);
+       int w = iR*speedFactor;
+       int h = iR*speedFactor;
+       if (drawEllipse) {
+         ellipse(x, y, w, h);
+       } else {
+         rect(0, 0, w, h);
+       }
      }
   }
 }
