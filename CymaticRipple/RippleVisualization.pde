@@ -32,6 +32,7 @@ class RippleVisualization {
     colorMode(HSB);
     noStroke();
     ellipseMode(RADIUS);
+    rectMode(CENTER);
   }
   
   float smooth(float[] smoothing, int length, float value) {
@@ -65,16 +66,16 @@ class RippleVisualization {
   }
   
   void update_freq() {
-    float amp = input.mix.get(0) * 15;
-    float freq = get_freq();
-    print("Amp", amp, "Freq", freq);
+    float amp = abs(input.mix.get(0)*3);
+    float freq = get_freq() * 10;
+    //print("Amp", amp, "Freq", freq);
     amp = smooth(smoothing_amp, smoothing, amp);
     freq = smooth(smoothing_freq, smoothing, freq);
-    
-    int hue = int(255.0 * freq);
+    //print("  SAmp", amp, "SFreq", freq);
+    int hue = int(127 * freq);
     int val = (int)map(amp, 0.0, 1.0, 0.0, 255.0);
     if (val < 10) { val = 0; }
-    println("H", hue, "V", val);
+    //println("   H", hue, "V", val);
     push_queue(color(hue, 255, val));
   }
   
@@ -125,12 +126,24 @@ class RippleVisualization {
   }
   
   void draw() {
-    int radius = width/2;
+    int speedFactor = 3;
+    int radius = width/(2*speedFactor);
     int x = width/2;
     int y = height/2;
-     for (int iR = radius; iR > 0; --iR) {
+    
+    println(frameRate);
+    boolean drawEllipse = true;
+    int rad = (int)(radius * 2);
+    if (drawEllipse) { rad = (int)(radius * 1.5); }
+    for (int iR = rad; iR > 0; --iR) {
        fill(viz[iR % size]);
-       ellipse(x, y, iR, iR);
-     }
+       int w = iR*speedFactor;
+       int h = iR*speedFactor;
+       if (drawEllipse) {
+         ellipse(x, y, w, h);
+       } else {
+         rect(x, y, w, h);
+       }
+    }
   }
 }

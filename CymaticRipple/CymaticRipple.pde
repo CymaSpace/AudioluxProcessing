@@ -15,13 +15,15 @@ RippleVisualization rv;
 void setup()
 {
   size(600, 600);
+  surface.setResizable(true);
  
   minim = new Minim(this);
   input = minim.getLineIn();
   
-  fft = new FFT(1024, 44100);
+  fft = new FFT(input.bufferSize(), input.sampleRate());
   fft.window(FFT.HANN);
   //fft.logAverages(22, 3);
+  fft.linAverages(30);
   rv = new RippleVisualization(fft, input, 350, 1, true);
 }
  
