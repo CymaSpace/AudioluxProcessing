@@ -14,7 +14,7 @@ RippleVisualization rv;
  
 void setup()
 {
-  size(600, 600);
+  size(500, 500);
   surface.setResizable(true);
  
   minim = new Minim(this);

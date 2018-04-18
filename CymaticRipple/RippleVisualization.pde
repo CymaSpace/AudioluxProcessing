@@ -66,16 +66,16 @@ class RippleVisualization {
   }
   
   void update_freq() {
-    float amp = abs(input.mix.get(0)*3);
-    float freq = get_freq() * 10;
+    float amp = abs(input.mix.get(0)*10);
+    float freq = get_freq() * 7;
     //print("Amp", amp, "Freq", freq);
     amp = smooth(smoothing_amp, smoothing, amp);
     freq = smooth(smoothing_freq, smoothing, freq);
     //print("  SAmp", amp, "SFreq", freq);
-    int hue = int(127 * freq);
+    int hue = (int)(127 * freq + 127) % 255;
     int val = (int)map(amp, 0.0, 1.0, 0.0, 255.0);
-    if (val < 10) { val = 0; }
-    //println("   H", hue, "V", val);
+    if (val < 20) { val = 0; }
+    println("   H", hue, "V", val);
     push_queue(color(hue, 255, val));
   }
   
