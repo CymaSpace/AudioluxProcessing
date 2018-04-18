@@ -1,3 +1,5 @@
+import controlP5.*;
+
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -11,11 +13,20 @@ AudioInput input;
 FFT fft;
 float spectrumScale = 400;
 RippleVisualization rv;
+ControlApplet ctrl;
+
+float _gain = 10.0;
+float _offset = 127.0;
+float _cutoff = 20.0;
+float _spread = 5.0;
+float _speed = 3.0;
+boolean _drawEllipse = false;
  
 void setup()
 {
-  size(600, 600);
+  size(500, 500);
   surface.setResizable(true);
+  ctrl = new ControlApplet(this);
  
   minim = new Minim(this);
   input = minim.getLineIn();
@@ -24,9 +35,9 @@ void setup()
   fft.window(FFT.HANN);
   //fft.logAverages(22, 3);
   fft.linAverages(30);
-  rv = new RippleVisualization(fft, input, 350, 1, true);
+  rv = new RippleVisualization(fft, input, 501, 1, true);
 }
- 
+
 void draw()
 {
   background(0);
