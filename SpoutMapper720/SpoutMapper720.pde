@@ -8,9 +8,9 @@ Table pixMap;
 Serial conn;
 
 String spoutName = "led";
-String filename = "curtain-test.tsv";
+String filename = "spokes.tsv"; //"curtain-test.tsv";
 String comPort = "COM10";
-int pixelCount = 150;
+int pixelCount = 720; //150;
 
 void setup() {
   
@@ -62,8 +62,9 @@ void draw() {
     //println(y);
     
     color c = img.pixels[y*width+x];
-    pixdata[iX++] = byte(green(c));
     pixdata[iX++] = byte(red(c));
+    pixdata[iX++] = byte(green(c));
+
     pixdata[iX++] = byte(blue(c));
   }
   conn.write(pixdata);

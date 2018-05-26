@@ -177,7 +177,7 @@ class Spout
       img.resize(dim[0], dim[1]);
       // Reset the frame size - include borders and caption
       Insets insets = frame.getInsets();
-      surface.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
+      frame.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
     }
     else {
       img.updatePixels();
@@ -244,7 +244,7 @@ class Spout
       img.resize(dim[0], dim[1]);
       // Reset the frame size - include borders and caption
       Insets insets = frame.getInsets();
-      surface.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
+      frame.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
     }
     else {
       img.updatePixels();
@@ -285,7 +285,7 @@ class Spout
              img.resize(dim[0], dim[1]);
              // Include borders and caption
              Insets insets = frame.getInsets();
-             surface.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
+             frame.setSize(dim[0] + (insets.left + insets.right), dim[1] + (insets.top + insets.bottom));            
         }
         else {
           img.updatePixels();

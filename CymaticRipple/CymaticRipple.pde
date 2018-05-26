@@ -14,6 +14,7 @@ FFT fft;
 float spectrumScale = 400;
 RippleVisualization rv;
 ControlApplet ctrl;
+Spout spout;
 
 float _gain = 10.0;
 float _offset = 127.0;
@@ -24,9 +25,13 @@ boolean _drawEllipse = false;
  
 void setup()
 {
-  size(500, 500);
+  size(640, 480, P2D);
   surface.setResizable(true);
   ctrl = new ControlApplet(this);
+  noSmooth();
+  
+  spout = new Spout();
+  spout.initSender("led", width, height);
  
   minim = new Minim(this);
   input = minim.getLineIn();
@@ -43,6 +48,7 @@ void draw()
   background(0);
   rv.update();
   rv.draw();
+  spout.sendTexture();
   /*
   stroke(255);
   fft.forward(input.mix);

@@ -142,6 +142,8 @@ class RippleVisualization {
        } else {
          rect(x, y, w, h);
        }
+       --iR;
+       --iR;
     }
   }
 }
